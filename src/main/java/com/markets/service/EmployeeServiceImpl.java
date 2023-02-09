@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeDao employeeDao;
 
@@ -25,33 +25,34 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public void saveEmployee(EmployeeEntity employee) {
+    public EmployeeEntity saveEmployee(EmployeeEntity employee) {
         boolean exists = employeeDao.existsById(employee.geteId());
-        if(!exists){
+        if (!exists) {
             employeeDao.save(employee);
-        }
-        else {
+        } else {
             System.out.println("Record already present");
         }
+        return employee;
     }
 
     @Override
-    public void deleteEmploye(Integer eid) {
+    public EmployeeEntity deleteEmployee(Integer eid) {
         boolean exists = employeeDao.existsById(eid);
-        if(!exists){
-            throw new IllegalStateException("employee with Id "+eid+" does not exists");
+        if (!exists) {
+            throw new IllegalStateException("employee with Id " + eid + " does not exists");
         }
         employeeDao.deleteById(eid);
         System.out.println("Deleted Successfully");
+        return null;
     }
 
     @Override
     public EmployeeEntity searchEmployee(Integer eid) {
         Optional<EmployeeEntity> employeeEntityOptional = employeeDao.findById(eid);
-        if(employeeEntityOptional.isPresent()){
+        if (employeeEntityOptional.isPresent()) {
             return employeeEntityOptional.get();
-        }else{
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Record Not Found");
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Record Not Found");
         }
     }
 
@@ -59,8 +60,8 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public EmployeeEntity updateEmployee(EmployeeEntity employee) {
         EmployeeEntity employee1 = employeeDao.findById(
-                employee.geteId()).orElseThrow(()->
-                new IllegalStateException("Employee with ID "+employee.geteId()+" Does not exist"));
+                employee.geteId()).orElseThrow(() ->
+                new IllegalStateException("Employee with ID " + employee.geteId() + " Does not exist"));
         employee1.setName((employee.getName()));
         employee1.setSalary(employee.getSalary());
         return employee1;

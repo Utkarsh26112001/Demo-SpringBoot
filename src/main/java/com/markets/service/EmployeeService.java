@@ -2,13 +2,15 @@ package com.markets.service;
 
 import com.markets.entity.EmployeeEntity;
 
-import java.util.Iterator;
 import java.util.List;
 
 public interface EmployeeService {
     List<EmployeeEntity> getAllEmployees();
-    void saveEmployee(EmployeeEntity employee);
-    void deleteEmploye(Integer eid);
+
+    EmployeeEntity saveEmployee(EmployeeEntity employee);
+
+    EmployeeEntity deleteEmployee(Integer eid);
+
     EmployeeEntity searchEmployee(Integer eid);
 
     EmployeeEntity updateEmployee(EmployeeEntity employee);
